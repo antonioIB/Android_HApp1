@@ -96,7 +96,6 @@ public class TasksFragment extends Fragment {
         @Override
         protected ArrayList<Task> doInBackground(Void... args) {
             ArrayList<Task> out = new ArrayList<>();
-            System.out.println("in do in background");
             try {
                 URL url = new URL("http://192.168.2.128/econolodgeapp/gettasks.php");
                 URLConnection conn = url.openConnection();
@@ -117,11 +116,10 @@ public class TasksFragment extends Fragment {
             }
             return out;
         }
-        //comment
+
         @Override
         protected void onPostExecute(ArrayList<Task> tL)
         {
-            System.out.println("in post execute");
             taskList = tL;
             listStrings = new String[taskList.size()];
             for(int i = 0; i < taskList.size(); i++)

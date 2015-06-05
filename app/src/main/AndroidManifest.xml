@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FrontDeskActivity"
+            android:name=".FragmentContainerActivity"
             android:label="@string/title_section0" >
         </activity>
         <activity
-            android:name=".AddTask"
-            android:label="@string/title_activity_add_task" >
+            android:name=".CreateTaskActivity"
+            android:label="@string/title_activity_create_task" >
         </activity>
     </application>
 
