@@ -26,6 +26,10 @@
             android:name=".CreateTaskActivity"
             android:label="@string/title_activity_create_task" >
         </activity>
+        <activity
+            android:name=".CleanApprovalActivity"
+            android:label="@string/title_activity_clean_approval" >
+        </activity>
     </application>
 
 </manifest>
