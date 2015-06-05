@@ -74,5 +74,6 @@
         <item>SEMI-ANNUALLY</item>
         <item>ANNUALLY</item>
     </string-array>
+    <string name="title_activity_clean_approval">CleanApprovalActivity</string>
 
 </resources>
