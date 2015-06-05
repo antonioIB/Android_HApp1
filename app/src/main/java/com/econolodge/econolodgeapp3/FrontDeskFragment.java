@@ -4,17 +4,23 @@ package com.econolodge.econolodgeapp3;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -72,8 +78,42 @@ public class FrontDeskFragment extends Fragment {
         return rootView;
     }
 
-
-
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(room[info.position] + ":Select Option");
+        menu.add(Menu.NONE, CONTEXT_MENU_OPTION1, 0, "Checked Out");
+        menu.add(Menu.NONE, CONTEXT_MENU_OPTION2, 1, "Clean");
+        menu.add(Menu.NONE, CONTEXT_MENU_OPTION3, 2, "In House");
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case CONTEXT_MENU_OPTION1:
+                listView.getChildAt(info.position).setBackgroundResource(R.color.red);
+                Intent i = new Intent(getActivity().getApplicationContext(), HousekeepingFragment.class);
+                i.putExtra("room", room[info.position].toString());
+                startActivity(i);
+                Toast.makeText(getActivity(), room[info.position] + " -- DIRTY", Toast.LENGTH_LONG).show();
+                return true;
+            case CONTEXT_MENU_OPTION2:
+                listView.getChildAt(info.position).setBackgroundResource(R.color.Green);
+                TextView Available = (TextView) listView.getChildAt(info.position).findViewById(R.id.Available);
+                Available.setText("Available");
+                Toast.makeText(getActivity(), room[info.position] + " -- clean", Toast.LENGTH_LONG).show();
+                return true;
+            case CONTEXT_MENU_OPTION3:
+                listView.getChildAt(info.position).setBackgroundResource(R.color.Return);
+                TextView occupied = (TextView) listView.getChildAt(info.position).findViewById(R.id.Available);
+                occupied.setText("Occupied");
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     public class RowItem {
         private String room;
@@ -185,7 +225,9 @@ public class FrontDeskFragment extends Fragment {
                     R.layout.fragment_front_desk, rowItems);
             listView.setAdapter(adapter);
             //prDialog.hide();
+            registerForContextMenu(listView);
         }
+
     }
 
 }
