@@ -32,7 +32,8 @@
     <string name="title_section1">Maintenance</string>
     <string name="title_section2">Create User</string>
     <string name="title_section3">HouseKeeping</string>
-    <string name="title_section4">Tasks</string>
+    <string name="title_section4">Maintenance</string>
+    <string name="title_section5">Tasks</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -59,20 +60,21 @@
         <item>Housekeeping</item>
         <item>Maintance</item>
     </string-array>
+
+    <string-array name="Status">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Fortnight</item>
+        <item>Monthly</item>
+        <item>Quarterly</item>
+        <item>Semi-Annually</item>
+        <item>Annually</item>
+    </string-array>
+
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_create_task">CreateTaskActivity</string>
-
-    <string-array name="task_spinner" >
-        <item>DAILY</item>
-        <item>WEEKLY</item>
-        <item>FORTNIGHT</item>
-        <item>MONTHLY</item>
-        <item>QUARTELY</item>
-        <item>SEMI-ANNUALLY</item>
-        <item>ANNUALLY</item>
-    </string-array>
+    <string name="title_activity_add_task">AddTask</string>
 
 </resources>

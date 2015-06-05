@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 
 /**
@@ -21,15 +22,15 @@ import java.util.Calendar;
  */
 public class CreateUserFragment extends Fragment {
 
-    private EditText txtDate,leavingDate,hirDate;
+    private EditText txtDate,leavingDate,hirDate,fname,lname,city,zip,phoneno,email;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog leaveDialog;
     private DatePickerDialog hireDialog;
     private SimpleDateFormat dateFormatter;
+
     private View rootView;
 
-    private String txtD, lDate, hDate;
-
+    private String txtD, lDate, hDate,firstn,lastn,cty;
     public CreateUserFragment() {
         // Required empty public constructor
     }
@@ -40,18 +41,34 @@ public class CreateUserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_create_user, container, false);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        findViewById();
+        setDateTimeField();
+
+        return inflater.inflate(R.layout.fragment_create_user, container, false);
+
+    }
+    private void findViewById() {
+        fname=(EditText)rootView.findViewById(R.id.fName);
+        fname.setInputType(InputType.TYPE_NULL);
+        lname=(EditText)rootView.findViewById(R.id.lName);
+        lname.setInputType(InputType.TYPE_NULL);
+        city=(EditText)rootView.findViewById(R.id.city);
+        city.setInputType(InputType.TYPE_NULL);
+        zip=(EditText)rootView.findViewById(R.id.zip);
+        zip.setInputType(InputType.TYPE_NULL);
+        phoneno=(EditText)rootView.findViewById(R.id.phone);
+        phoneno.setInputType(InputType.TYPE_NULL);
+        email=(EditText)rootView.findViewById(R.id.registerEmail);
+        email.setInputType(InputType.TYPE_NULL);
 
         txtDate = (EditText) rootView.findViewById(R.id.txtDate);
         txtDate.setInputType(InputType.TYPE_NULL);
         leavingDate = (EditText) rootView.findViewById(R.id.leavingDate);
         leavingDate.setInputType(InputType.TYPE_NULL);
         hirDate = (EditText) rootView.findViewById(R.id.hirDate);
-        hirDate.setInputType(InputType.TYPE_NULL);
+        hirDate.setInputType(InputType.TYPE_NULL);}
 
-
-        return inflater.inflate(R.layout.fragment_create_user, container, false);
-
-    }
 
 /*
     private void findViewById() {
@@ -62,7 +79,7 @@ public class CreateUserFragment extends Fragment {
         hirDate = (EditText) findViewById(R.id.hirDate);
         hirDate.setInputType(InputType.TYPE_NULL);
     }*/
-    /*
+
     private void setDateTimeField() {
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +87,8 @@ public class CreateUserFragment extends Fragment {
 
             }
         });
-        leavingDate.setOnClickListener(this);
-        hirDate.setOnClickListener(this);
+        leavingDate.setOnClickListener((View.OnClickListener) getActivity());
+        hirDate.setOnClickListener((View.OnClickListener) getActivity());
         Calendar newCalendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
@@ -101,7 +118,7 @@ public class CreateUserFragment extends Fragment {
 
             }
         },hireCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }*/
+    }
 
     public void registerUser(View view) {
         txtD = txtDate.getText().toString();

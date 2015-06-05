@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -151,7 +152,7 @@ public class LoginActivity extends Activity {
      */
     public void navigatetoRelatedActivity(){
         if(userPosition.equals("MANAGER")||userPosition.equals("FRONT DESK")) {
-            Intent homeIntent = new Intent(getApplicationContext(), FragmentContainerActivity.class);
+            Intent homeIntent = new Intent(getApplicationContext(), FrontDeskActivity.class);
             homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);
         }/*
