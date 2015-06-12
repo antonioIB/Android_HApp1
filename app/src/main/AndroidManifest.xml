@@ -30,6 +30,10 @@
             android:name=".CleanApprovalActivity"
             android:label="@string/title_activity_clean_approval" >
         </activity>
+        <activity
+            android:name=".MPhotoActivity"
+            android:label="@string/title_activity_mphoto" >
+        </activity>
     </application>
 
 </manifest>

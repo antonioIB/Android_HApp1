@@ -63,7 +63,7 @@ public class CreateTaskActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addTask(View view) {
+    public void addTask (View view) {
         final ProgressDialog prgDialog = new ProgressDialog(this);
 
         EditText eTitle = (EditText) findViewById(R.id.tasktitle);
