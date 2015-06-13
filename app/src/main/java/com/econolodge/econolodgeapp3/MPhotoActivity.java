@@ -71,7 +71,8 @@ public class MPhotoActivity extends ActionBarActivity {
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 90, bao);
         byte[] ba = bao.toByteArray();
-  ba1 = Base64.encodeBytes(ba);
+        switch (ba1 = Base64.encodeBytes(ba)) {
+        }
 
         Log.e("base64", "-----" + ba1);
 
