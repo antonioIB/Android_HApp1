@@ -44,7 +44,7 @@ public class MaintenanceFragment extends Fragment {
     View globalview;
     protected static final int CONTEXT_MENU_OPTION1 = 1;
     protected static final int CONTEXT_MENU_OPTION2 = 2;
-    List<MRowItem> mRowItems;
+    List<GetTask.MRowItem> mRowItems;
 
 
     @Override
