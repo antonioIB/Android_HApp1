@@ -177,9 +177,5 @@ public class LoginActivity extends Activity {
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(loginIntent);
     }*/
-    public void temp(View view) {
-        Intent i = new Intent(this, MPhotoActivity.class);
-        startActivity(i);
-    }
 
 }
