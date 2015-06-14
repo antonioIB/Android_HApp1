@@ -75,7 +75,7 @@ public class CreateTaskActivity extends ActionBarActivity {
         Spinner eSpin = (Spinner) findViewById(R.id.spinner);
         String tSpin = eSpin.getSelectedItem().toString();
 
-        prgDialog.show();
+    //    prgDialog.show();
         new SendTask().execute(tTitle, tDesc, tSpin);
         prgDialog.hide();
 

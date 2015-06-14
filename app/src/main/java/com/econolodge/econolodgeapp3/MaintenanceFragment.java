@@ -61,6 +61,79 @@ public class MaintenanceFragment extends Fragment {
 
         return rootView;
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(listStrings[info.position] + ":Select Option");
+        menu.add(Menu.NONE, CONTEXT_MENU_OPTION1, 0, "images");
+        menu.add(Menu.NONE, CONTEXT_MENU_OPTION2, 1, "work status");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        TextView available = (TextView) listview.getChildAt(info.position).findViewById(R.id.Available);
+        switch (item.getItemId()) {
+            case CONTEXT_MENU_OPTION1:
+                listview.getChildAt(info.position).setBackgroundResource(R.color.Green);
+                Intent intent = new Intent(getActivity(), MPhotoActivity.class);
+                startActivity(intent);
+                //Intent i = new Intent(getActivity().getApplicationContext(), HousekeepingFragment.class);
+              /*  switch (available.getText().toString()) {
+                    case ("Available") :
+                        Toast.makeText(getActivity(), "Error: Can't check out if room is AVAILABLE", Toast.LENGTH_LONG).show();
+                        return true;
+                    case ("Occupied") :
+                        //TODO do server work
+                        break;
+                    case ("Dirty") :
+                        Toast.makeText(getActivity(), "Error: Room already checked out", Toast.LENGTH_LONG).show();
+                        return true;
+                    default:
+                        return false;
+                }
+                //i.putExtra("room", room[info.position].toString());
+                //available = (TextView) listView.getChildAt(info.position).findViewById(R.id.Available);
+                //startActivity(i);
+                //Toast.makeText(getActivity(), room[info.position] + " -- DIRTY", Toast.LENGTH_LONG).show();
+                return true;*/
+                return true;
+
+            case CONTEXT_MENU_OPTION2:
+                listview.getChildAt(info.position).setBackgroundResource(R.color.red);
+                //available = (TextView) listView.getChildAt(info.position).findViewById(R.id.Available);
+                //Available.setText("Available");
+                /*switch (available.getText().toString()) {
+                    case ("Available") :
+                        Toast.makeText(getActivity(), "Error: Room already clean", Toast.LENGTH_LONG).show();
+                        return true;
+                    case ("Occupied") :
+                        Toast.makeText(getActivity(), "Error: Can't clean an OCCUPIED room", Toast.LENGTH_LONG).show();
+                        return true;
+                    case ("Dirty") :
+                        Intent i = new Intent(getActivity(), CleanApprovalActivity.class);
+                        i.putExtra("room", room[info.position]);
+                        //TODO get pictures
+                        break;
+                    default:
+                        return false;
+                }*/
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
+
+
+
+
+
+
+
     class Task {
         public String title;
         public String desc;
@@ -184,69 +257,8 @@ public class MaintenanceFragment extends Fragment {
             return  convertView;
         }
     }
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        menu.setHeaderTitle(listStrings[info.position] + ":Select Option");
-        menu.add(Menu.NONE, CONTEXT_MENU_OPTION1, 0, "images");
-        menu.add(Menu.NONE, CONTEXT_MENU_OPTION2, 1, "work status");
 
-    }
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        TextView available = (TextView) listview.getChildAt(info.position).findViewById(R.id.Available);
-        switch (item.getItemId()) {
-            case CONTEXT_MENU_OPTION1:
-                listview.getChildAt(info.position).setBackgroundResource(R.color.Green);
-                Intent intent = new Intent(getActivity(), MPhotoActivity.class);
-                startActivity(intent);
-                //Intent i = new Intent(getActivity().getApplicationContext(), HousekeepingFragment.class);
-              /*  switch (available.getText().toString()) {
-                    case ("Available") :
-                        Toast.makeText(getActivity(), "Error: Can't check out if room is AVAILABLE", Toast.LENGTH_LONG).show();
-                        return true;
-                    case ("Occupied") :
-                        //TODO do server work
-                        break;
-                    case ("Dirty") :
-                        Toast.makeText(getActivity(), "Error: Room already checked out", Toast.LENGTH_LONG).show();
-                        return true;
-                    default:
-                        return false;
-                }
-                //i.putExtra("room", room[info.position].toString());
-                //available = (TextView) listView.getChildAt(info.position).findViewById(R.id.Available);
-                //startActivity(i);
-                //Toast.makeText(getActivity(), room[info.position] + " -- DIRTY", Toast.LENGTH_LONG).show();
-                return true;*/
-                return true;
 
-            case CONTEXT_MENU_OPTION2:
-                listview.getChildAt(info.position).setBackgroundResource(R.color.red);
-                //available = (TextView) listView.getChildAt(info.position).findViewById(R.id.Available);
-                //Available.setText("Available");
-                /*switch (available.getText().toString()) {
-                    case ("Available") :
-                        Toast.makeText(getActivity(), "Error: Room already clean", Toast.LENGTH_LONG).show();
-                        return true;
-                    case ("Occupied") :
-                        Toast.makeText(getActivity(), "Error: Can't clean an OCCUPIED room", Toast.LENGTH_LONG).show();
-                        return true;
-                    case ("Dirty") :
-                        Intent i = new Intent(getActivity(), CleanApprovalActivity.class);
-                        i.putExtra("room", room[info.position]);
-                        //TODO get pictures
-                        break;
-                    default:
-                        return false;
-                }*/
-                return true;
-        }
-                return super.onContextItemSelected(item);
-        }
     }}
 
 
