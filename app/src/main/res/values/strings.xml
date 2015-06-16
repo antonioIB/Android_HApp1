@@ -76,5 +76,6 @@
     </string-array>
     <string name="title_activity_clean_approval">CleanApprovalActivity</string>
     <string name="title_activity_mphoto">Maintenance</string>
+    <string name="title_activity_mphoto_activity2">MPhotoActivity2</string>
 
 </resources>

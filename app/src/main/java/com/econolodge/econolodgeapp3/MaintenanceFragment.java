@@ -78,7 +78,7 @@ public class MaintenanceFragment extends Fragment {
         switch (item.getItemId()) {
             case CONTEXT_MENU_OPTION1:
                 listview.getChildAt(info.position).setBackgroundResource(R.color.Green);
-                Intent intent = new Intent(getActivity(), MPhotoActivity.class);
+                Intent intent = new Intent(getActivity(), MPhotoActivity2.class);
                 startActivity(intent);
                 //Intent i = new Intent(getActivity().getApplicationContext(), HousekeepingFragment.class);
               /*  switch (available.getText().toString()) {
