@@ -66,7 +66,7 @@ public class MaintenanceFragment extends Fragment {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        menu.setHeaderTitle(listStrings[info.position] + ":Select Option");
+        menu.setHeaderTitle(mRowItems.get(info.position).getTitle() + ":Select Option");
         menu.add(Menu.NONE, CONTEXT_MENU_OPTION1, 0, "images");
         menu.add(Menu.NONE, CONTEXT_MENU_OPTION2, 1, "work status");
     }
@@ -128,11 +128,6 @@ public class MaintenanceFragment extends Fragment {
 
 
 
-
-
-
-
-
     public class MRowItem {
         private String title;
         private String description;
@@ -173,7 +168,7 @@ public class MaintenanceFragment extends Fragment {
         protected ArrayList<MRowItem> doInBackground(Void... args) {
             ArrayList<MRowItem> out = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.2.105/econolodgeapp/maintenance.php");
+                URL url = new URL("http://192.168.2.109/econolodgeapp/maintenance.php");
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
@@ -184,7 +179,7 @@ public class MaintenanceFragment extends Fragment {
                 while ((line = reader.readLine()) != null) {
                     Log.d("GetTasksBuf: ", line);
                     String[] splitString = line.split(",");
-                    taskBuf = new MRowItem(splitString[0], splitString[1],splitString[2], Integer.parseInt(splitString[4]));
+                    taskBuf = new MRowItem(splitString[0], splitString[1], splitString[2], Integer.parseInt(splitString[3]));
                     out.add(taskBuf);
                 }
             } catch (Exception e) {
@@ -213,9 +208,9 @@ public class MaintenanceFragment extends Fragment {
             registerForContextMenu(listview);
         }
 
+    }
 
-
-    public class MListViewAdapter extends ArrayAdapter<MRowItem> {
+    private class MListViewAdapter extends ArrayAdapter<MRowItem> {
         Context context;
         public MListViewAdapter(Context context, int fragment_maintenance, List<MRowItem> mRowItems) {
             super(context, fragment_maintenance, mRowItems);
@@ -228,6 +223,7 @@ public class MaintenanceFragment extends Fragment {
             TextView txtDescription;
             TextView txtTime;
         }
+
         public View getView(int position, View convertView, ViewGroup parent){
             ViewHolder holder = null;
             MRowItem rowItem = getItem(position);
@@ -235,7 +231,7 @@ public class MaintenanceFragment extends Fragment {
             if(convertView==null){
                 convertView = mInflater.inflate(R.layout.maintainencelistitems, null);
                 holder= new ViewHolder();
-                holder.txtTitle=(TextView) convertView.findViewById(R.id.title);
+                holder.txtTitle=(TextView) convertView.findViewById(R.id.Task);
                 holder.txtDescription=(TextView) convertView.findViewById(R.id.Description);
                 holder.txtTime=(TextView) convertView.findViewById(R.id.Time);
                 convertView.setTag(holder);
@@ -246,7 +242,6 @@ public class MaintenanceFragment extends Fragment {
             holder.txtTime.setText(rowItem.getTime());
             return  convertView;
         }
-    }
     }
 }
 

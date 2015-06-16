@@ -45,8 +45,8 @@ public class MPhotoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mphoto);
 
-        btpic = (Button) findViewById(R.id.cpic);
-        btpic.setOnClickListener(new View.OnClickListener() {
+        //btpic = (Button) findViewById(R.id.cpic);
+       /* btpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickpic();
@@ -57,7 +57,7 @@ public class MPhotoActivity extends ActionBarActivity {
         btnup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upload();
+                //upload();
             }
         });
     }
@@ -154,7 +154,7 @@ public class MPhotoActivity extends ActionBarActivity {
             super.onPostExecute(result);
             pd.hide();
             pd.dismiss();
-        }
+        }*/
     }
 }
 
