@@ -38,13 +38,12 @@ public class MaintenanceFragment extends Fragment {
     public MaintenanceFragment() {
         // Required empty public constructor
     }
-    static ArrayList<Task> taskList;
     String listStrings[];
     ListView listview;
     View globalview;
     protected static final int CONTEXT_MENU_OPTION1 = 1;
     protected static final int CONTEXT_MENU_OPTION2 = 2;
-    List<GetTask.MRowItem> mRowItems;
+    List<MRowItem> mRowItems;
 
 
     @Override
@@ -134,73 +133,17 @@ public class MaintenanceFragment extends Fragment {
 
 
 
-    class Task {
-        public String title;
-        public String desc;
-        public String time;
-        public int id;
-
-        public Task(String s, String t, String d, String ti, int i)
-        {
-            title = t;
-            desc = d;
-            time = ti;
-            id = i;
-        }
-    }
-
-    class GetTask extends AsyncTask<Void, Void, ArrayList<Task>> {
-        @Override
-        protected ArrayList<Task> doInBackground(Void... args) {
-            ArrayList<Task> out = new ArrayList<>();
-            try {
-                URL url = new URL("http://192.168.2.105/econolodgeapp/maintenance.php");
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line;
-                Task taskBuf;
-                while ((line = reader.readLine()) != null) {
-                    Log.d("GetTasksBuf: ", line);
-                    String[] splitString = line.split(",");
-                    taskBuf = new Task(splitString[0], splitString[1],splitString[2],splitString[3], Integer.parseInt(splitString[4]));
-                    out.add(taskBuf);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return out;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Task> tL)
-        {
-            taskList = tL;
-            listStrings = new String[taskList.size()];
-            for(int i = 0; i < taskList.size(); i++)
-            {
-                 MRowItem item  = new MRowItem(listStrings,taskList.get(i).desc,taskList.get(i).time);
-            }
-
-
-            listview = (ListView) globalview.findViewById(R.id.listviewMaintainence);
-            MListViewAdapter adapter = new MListViewAdapter(getActivity(),
-                    R.layout.fragment_maintenance, mRowItems);
-            listview.setAdapter(adapter);
-            //prDialog.hide();
-            registerForContextMenu(listview);
-        }
-
     public class MRowItem {
         private String title;
         private String description;
         private String time;
-        public MRowItem(String[] title, String description, String time)
+        private int id;
+        public MRowItem(String title, String description, String time, int i)
         {   this.title=title;
             this.description=description;
-            this.time=time;}
+            this.time=time;
+            this.id = i;
+        }
         public String getTitle() {
             return title;
         }
@@ -224,6 +167,53 @@ public class MaintenanceFragment extends Fragment {
             return title+ "/n"+description+ "/n"+time;
         }
     }
+
+    class GetTask extends AsyncTask<Void, Void, ArrayList<MRowItem>> {
+        @Override
+        protected ArrayList<MRowItem> doInBackground(Void... args) {
+            ArrayList<MRowItem> out = new ArrayList<>();
+            try {
+                URL url = new URL("http://192.168.2.105/econolodgeapp/maintenance.php");
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                MRowItem taskBuf;
+                while ((line = reader.readLine()) != null) {
+                    Log.d("GetTasksBuf: ", line);
+                    String[] splitString = line.split(",");
+                    taskBuf = new MRowItem(splitString[0], splitString[1],splitString[2], Integer.parseInt(splitString[4]));
+                    out.add(taskBuf);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return out;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MRowItem> mL)
+        {
+            mRowItems = mL;
+            listStrings = new String[mL.size()];
+            /*
+            for(int i = 0; i < mL.size(); i++)
+            {
+                 MRowItem item  = new MRowItem(listStrings[i], mL.get(i).getDescription(), mL.get(i).getTime());
+            }*/
+
+
+            listview = (ListView) globalview.findViewById(R.id.listviewMaintainence);
+            MListViewAdapter adapter = new MListViewAdapter(getActivity(),
+                    R.layout.fragment_maintenance, mRowItems);
+            listview.setAdapter(adapter);
+            //prDialog.hide();
+            registerForContextMenu(listview);
+        }
+
+
 
     public class MListViewAdapter extends ArrayAdapter<MRowItem> {
         Context context;
@@ -257,9 +247,8 @@ public class MaintenanceFragment extends Fragment {
             return  convertView;
         }
     }
-
-
-    }}
+    }
+}
 
 
 
