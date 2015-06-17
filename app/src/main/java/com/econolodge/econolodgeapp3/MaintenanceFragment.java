@@ -168,7 +168,7 @@ public class MaintenanceFragment extends Fragment {
         protected ArrayList<MRowItem> doInBackground(Void... args) {
             ArrayList<MRowItem> out = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.2.109/econolodgeapp/maintenance.php");
+                URL url = new URL("http://192.168.2.105/econolodgeapp/maintenance.php");
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);

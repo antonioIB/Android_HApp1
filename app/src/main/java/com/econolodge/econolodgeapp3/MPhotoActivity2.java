@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -27,6 +28,8 @@ import java.net.URLEncoder;
 public class MPhotoActivity2 extends ActionBarActivity {
 
     private Uri pic;
+    private String msg;
+    ImageView current;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,14 @@ public class MPhotoActivity2 extends ActionBarActivity {
     private static final int SUCCESS = 1;
 
     public void picClick(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, SUCCESS);
+        try {
+            current = (ImageView) view;
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, SUCCESS);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -70,6 +79,7 @@ public class MPhotoActivity2 extends ActionBarActivity {
             if (resultCode == RESULT_OK) {
                 pic = data.getData();
                 Bitmap bmPic = (Bitmap) data.getExtras().get("data");
+                current.setImageBitmap(bmPic);
                 PictureTask background = new PictureTask(this);
                 background.execute(bmPic);
             }
@@ -125,12 +135,17 @@ public class MPhotoActivity2 extends ActionBarActivity {
         protected void onPostExecute(String args) {
             try {
                 Log.d("PictureTask", args);
-                TextView textView = (TextView) findViewById(R.id.message);
-                textView.setText(args);
+               // TextView textView = (TextView) findViewById(R.id.message);
+               // textView.setText(args);
+                msg = args;
+                Log.d("PhotoNetwork", msg);
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
     }
+
+    //private class DownloadPicture extends AsyncTask<>
+
 }
