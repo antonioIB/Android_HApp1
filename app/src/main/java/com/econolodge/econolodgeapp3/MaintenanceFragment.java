@@ -152,7 +152,7 @@ public class MaintenanceFragment extends Fragment {
             this.description=description;
         }
         public String getTime() {
-            return title;
+            return time;
         }
         public void setTime(String time){
             this.time=time;
@@ -168,7 +168,7 @@ public class MaintenanceFragment extends Fragment {
         protected ArrayList<MRowItem> doInBackground(Void... args) {
             ArrayList<MRowItem> out = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.2.109/econolodgeapp/maintenance.php");
+                URL url = new URL("http://192.168.2.126/maintenance.php");
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);

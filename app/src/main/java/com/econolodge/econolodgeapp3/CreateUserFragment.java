@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
  */
 public class CreateUserFragment extends Fragment {
 
-    private EditText txtDate, leavingDate, hirDate, fname, lname, city, zip, phoneno, email, address, ssn;
+    private EditText txtDate, leavingDate, hirDate, fname, lname, city, zip, phoneno, email, address, ssn,userid,password;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog leaveDialog;
     private DatePickerDialog hireDialog;
@@ -52,6 +52,8 @@ public class CreateUserFragment extends Fragment {
     private String spinner2;
     private String saddress;
     private String sssn;
+    private String suserid;
+    private String spassword;
 
     ProgressDialog prgDialog;
     public CreateUserFragment() {
@@ -95,6 +97,10 @@ public class CreateUserFragment extends Fragment {
         ssn.setInputType(InputType.TYPE_NULL);
         employeetype = (Spinner) rootView.findViewById(R.id.positionspinner);
         active = (Spinner) rootView.findViewById(R.id.activespinner);
+        userid = (EditText) rootView.findViewById(R.id.userid);
+        userid.setInputType(InputType.TYPE_NULL);
+        password = (EditText) rootView.findViewById(R.id.registerPassword);
+        password.setInputType(InputType.TYPE_NULL);
         Button register = (Button) rootView.findViewById(R.id.btnRegister);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +189,8 @@ public class CreateUserFragment extends Fragment {
         spinner = employeetype.getSelectedItem().toString();
         spinner2 = active.getSelectedItem().toString();
         saddress = address.getText().toString();
+        suserid = userid.getText().toString();
+        spassword = password.getText().toString();
         prgDialog.show();
         new RegisterUser().execute(slname, sFName, semail, sphoneno, saddress, scity, szip, txtD, hDate, lDate, sssn, spinner2, spinner);
         prgDialog.hide();

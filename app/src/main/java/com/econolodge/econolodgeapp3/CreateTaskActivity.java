@@ -129,7 +129,7 @@ public class CreateTaskActivity extends ActionBarActivity {
                 data += "&" + URLEncoder.encode("description", "UTF-8") + "=" + URLEncoder.encode(args[1], "UTF-8");
                 data += "&" + URLEncoder.encode("schedule", "UTF-8") + "=" + URLEncoder.encode(args[2], "UTF-8");
 
-                URL url = new URL("http://192.168.2.128/econolodgeapp/addtask.php");
+                URL url = new URL("http://192.168.2.105/addtask.php");
 
                 URLConnection conn = url.openConnection();
                 conn.setDoInput(true);

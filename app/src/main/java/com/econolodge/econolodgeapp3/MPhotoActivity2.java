@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
@@ -22,17 +21,80 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import android.widget.ExpandableListView;
 
 public class MPhotoActivity2 extends ActionBarActivity {
 
     private Uri pic;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mphoto_activity2);
+        // get the listview
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+
+        // preparing list data
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
     }
+
+    /*
+     * Preparing the list data
+     */
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding child data
+        listDataHeader.add("Before");
+        listDataHeader.add("During");
+        listDataHeader.add("After");
+
+        // Adding child data
+        List<String> Before = new ArrayList<String>();
+        Before.add("The Shawshank Redemption");
+        Before.add("The Godfather");
+        Before.add("The Godfather: Part II");
+        Before.add("Pulp Fiction");
+        Before.add("The Good, the Bad and the Ugly");
+        Before.add("The Dark Knight");
+        Before.add("12 Angry Men");
+
+        List<String> During= new ArrayList<String>();
+        During.add("The Conjuring");
+        During.add("Despicable Me 2");
+        During.add("Turbo");
+        During.add("Grown Ups 2");
+        During.add("Red 2");
+        During.add("The Wolverine");
+
+        List<String> After = new ArrayList<String>();
+        After.add("2 Guns");
+        After.add("The Smurfs 2");
+        After.add("The Spectacular Now");
+        After.add("The Canyons");
+        After.add("Europa Report");
+
+        listDataChild.put(listDataHeader.get(0), Before); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), During);
+        listDataChild.put(listDataHeader.get(2), After);
+    }
+
+
 
 
     @Override
@@ -87,7 +149,7 @@ public class MPhotoActivity2 extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Bitmap... args) {
-            final String link = "http://192.168.2.110/econolodgeapp/picture.php";
+            final String link = "http://192.168.2.117/upload_image.php";
             String line = null;
 
 

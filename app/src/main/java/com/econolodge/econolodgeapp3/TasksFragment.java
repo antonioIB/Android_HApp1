@@ -97,7 +97,7 @@ public class TasksFragment extends Fragment {
         protected ArrayList<Task> doInBackground(Void... args) {
             ArrayList<Task> out = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.2.110/econolodgeapp/gettasks.php");
+                URL url = new URL("http://192.168.2.117/econolodgeapp/gettasks.php");
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);

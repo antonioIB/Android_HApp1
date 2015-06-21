@@ -156,6 +156,7 @@ public class FragmentContainerActivity extends ActionBarActivity
         }
 
         public PlaceholderFragment() {
+
         }
 
         @Override

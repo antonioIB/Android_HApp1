@@ -216,7 +216,7 @@ public class FrontDeskFragment extends Fragment {
             String lines[] = new String[args[0].length];
             try {
                 String data = URLEncoder.encode("room0", "UTF-8") + "=" + URLEncoder.encode(args[0][0], "UTF-8");
-                final String link = "http://192.168.2.110/rooms.php";
+                final String link = "http://192.168.2.117/rooms.php";
                 for(int i = 1; i <args[0].length; i++) {
                     data += "&" + URLEncoder.encode("room" + i, "UTF-8") + "=" + URLEncoder.encode(args[0][i], "UTF-8");
                 }
