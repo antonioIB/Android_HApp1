@@ -31,10 +31,6 @@
             android:label="@string/title_activity_clean_approval" >
         </activity>
         <activity
-            android:name=".MPhotoActivity"
-            android:label="@string/title_activity_mphoto" >
-        </activity>
-        <activity
             android:name=".MPhotoActivity2"
             android:label="@string/title_activity_mphoto_activity2" >
         </activity>

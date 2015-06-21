@@ -168,7 +168,7 @@ public class MaintenanceFragment extends Fragment {
         protected ArrayList<MRowItem> doInBackground(Void... args) {
             ArrayList<MRowItem> out = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.2.126/maintenance.php");
+                URL url = new URL("http://192.168.2.125/maintenance.php");
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
@@ -179,8 +179,12 @@ public class MaintenanceFragment extends Fragment {
                 while ((line = reader.readLine()) != null) {
                     Log.d("GetTasksBuf: ", line);
                     String[] splitString = line.split(",");
-                    taskBuf = new MRowItem(splitString[0], splitString[1], splitString[2], Integer.parseInt(splitString[3]));
-                    out.add(taskBuf);
+                    if(splitString.length == 4) {
+                        taskBuf = new MRowItem(splitString[0], splitString[1], splitString[2], Integer.parseInt(splitString[3]));
+                        out.add(taskBuf);
+                    }
+                    else
+                        Log.d("GetTask", line);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -213,7 +217,7 @@ public class MaintenanceFragment extends Fragment {
     private class MListViewAdapter extends ArrayAdapter<MRowItem> {
         Context context;
         public MListViewAdapter(Context context, int fragment_maintenance, List<MRowItem> mRowItems) {
-            super(context, fragment_maintenance, mRowItems);
+            super(getActivity().getApplicationContext(), fragment_maintenance, mRowItems);
             this.context= context;
             notifyDataSetChanged();
         }
