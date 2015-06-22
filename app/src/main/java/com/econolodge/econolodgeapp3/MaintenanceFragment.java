@@ -79,6 +79,7 @@ public class MaintenanceFragment extends Fragment {
             case CONTEXT_MENU_OPTION1:
                 listview.getChildAt(info.position).setBackgroundResource(R.color.Green);
                 Intent intent = new Intent(getActivity(), MPhotoActivity2.class);
+                intent.putExtra("id", mRowItems.get(info.position).getId());
                 startActivity(intent);
                 //Intent i = new Intent(getActivity().getApplicationContext(), HousekeepingFragment.class);
               /*  switch (available.getText().toString()) {
@@ -157,6 +158,11 @@ public class MaintenanceFragment extends Fragment {
         public void setTime(String time){
             this.time=time;
         }
+
+        public int getId() {
+            return id;
+        }
+
         @Override
         public String toString(){
             return title+ "/n"+description+ "/n"+time;

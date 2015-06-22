@@ -3,6 +3,7 @@ package com.econolodge.econolodgeapp3;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -13,11 +14,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -33,12 +40,26 @@ public class MPhotoActivity2 extends ActionBarActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    static ArrayList<Image> images = new ArrayList<>();
 
+    ScrollView parent;
+    LinearLayout table;
 
+    private class Image
+    {
+        public String status;
+        public Bitmap bitmap;
+        Image(String status, Bitmap bitmap)
+        {
+            this.status = status;
+            this.bitmap = bitmap;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
         setContentView(R.layout.activity_mphoto_activity2);
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
@@ -49,7 +70,27 @@ public class MPhotoActivity2 extends ActionBarActivity {
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
         // setting list adapter
-        expListView.setAdapter(listAdapter);
+        expListView.setAdapter(listAdapter);*/
+        //setContentView(R.layout.activity_mphoto_activity3);
+
+        parent = new ScrollView(this);
+        table = new LinearLayout(this);
+
+        table.setOrientation(LinearLayout.VERTICAL);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        table.setLayoutParams(layoutParams);
+
+
+
+        Intent i = getIntent();
+        int id = i.getIntExtra("id", -1);
+
+        String sId = Integer.toString(id);
+        Log.d("OnCreate", "Calling getPicture");
+        new GetPicture().execute(sId);
+
+
+
     }
 
     /*
@@ -149,7 +190,8 @@ public class MPhotoActivity2 extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Bitmap... args) {
-            final String link = "http://192.168.2.117/upload_image.php";
+            final String link = "http://192.168.2.125/econolodgeapp/picture.php";
+            Bitmap download = null;
             String line = null;
 
 
@@ -175,8 +217,9 @@ public class MPhotoActivity2 extends ActionBarActivity {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 if ((line = reader.readLine()) == null) {
-                    Log.d("PictureTask: ", "null");
+                    Log.d("PictureTask: ", line);
                 }
+                download = BitmapFactory.decodeStream(new URL(line).openConnection().getInputStream());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -193,6 +236,88 @@ public class MPhotoActivity2 extends ActionBarActivity {
             {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class GetPicture extends AsyncTask<String, Void, Void>
+    {
+        @Override
+        public Void doInBackground(String... id)
+        {
+            try {
+                Log.d("DownloadPictureTask: ", "In GetPictures");
+                URL url = new URL("http://192.168.2.125/econolodgeapp/getImageUrl.php");
+                URLConnection conn = url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id[0], "UTF-8");
+
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                String line = "error";
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                Image iBuf;
+                Log.d("beforewhile ", line);
+                while ((line = reader.readLine()) != null) {
+                    Log.d("inwhile", line);
+                    String[] splitString = line.split(",");
+
+                    URL imageUrl = new URL("http://" + splitString[0]);
+                    HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+                    iBuf = new Image(splitString[1], myBitmap);
+                    images.add(iBuf);
+                }
+                Log.d("afterWhile", line);
+                Log.d("afterWhile", Integer.toString(images.size()));
+
+                /*
+                String imageUrl = "http://192.168.2.125/images" + id + ".jpg";
+                URL url2 = new URL(imageUrl);
+                HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;*/
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                return null;
+            }
+            Void v = null;
+            return v;
+        }
+
+        @Override
+        protected void onPostExecute(Void v)
+        {
+            Log.d("DownloadPictureTask: ", "In postexecute");
+            Log.d("postexecute", Integer.toString(images.size()));
+            ViewGroup.LayoutParams imageParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+            ImageView view;
+            for(int x = 0; x < images.size(); x++)
+            {
+                Log.d("For Loop", images.get(x).status);
+                view = new ImageView(getApplicationContext());
+                view.setLayoutParams(imageParams);
+                view.setImageBitmap(images.get(x).bitmap);
+                table.addView(view);
+            }
+
+            parent.addView(table);
+
+            setContentView(parent, layoutParams);
         }
     }
 }
