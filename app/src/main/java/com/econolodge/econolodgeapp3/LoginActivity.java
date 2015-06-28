@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +20,15 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
 
 
 public class LoginActivity extends Activity {
@@ -46,6 +57,12 @@ public class LoginActivity extends Activity {
         prgDialog.setMessage("Please wait...");
 
         prgDialog.setCancelable(false);
+    }
+
+    public void login(View view) {
+        Log.d("login", "button pressed");
+        new LoginTask().execute();
+        Log.d("login", "logintask finished");
     }
 
     /**
@@ -88,7 +105,7 @@ public class LoginActivity extends Activity {
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://107.178.209.102:8080/JPropertyWebService/login/dologin", params, new AsyncHttpResponseHandler() {
+        client.get("http://s/JPropertyWebService/login/dologin", params, new AsyncHttpResponseHandler() {
             // client.get("http://192.168.1.2:8080/JPropertyWebService/login/dologin", params, new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
             @Override
@@ -177,5 +194,32 @@ public class LoginActivity extends Activity {
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(loginIntent);
     }*/
+
+    public class LoginTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            // Get Email Edit View Value
+            String uid = useridET.getText().toString();
+            // Get Password Edit View Value
+            String password = pwdET.getText().toString();
+
+            try {
+                InetAddress serverAddr = InetAddress.getByName(Message.SERVERIP);
+                Message.LogInMessage logInMessage = new Message.LogInMessage(uid, password);
+
+                Socket socket = new Socket(serverAddr, Message.SERVERPORT);
+
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                Log.d("LogInTask", "printing uname:" + logInMessage.getUsername() + " password:" + logInMessage.getPassword());
+                out.writeObject(logInMessage);
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
 
 }
