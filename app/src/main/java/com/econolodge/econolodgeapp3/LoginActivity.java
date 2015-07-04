@@ -194,7 +194,7 @@ public class LoginActivity extends Activity {
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(loginIntent);
     }*/
-
+    //private OnMessageRecieved messageRecieved;
     public class LoginTask extends AsyncTask<Void, Void, Void> {
 
         @Override

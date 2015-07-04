@@ -1,5 +1,7 @@
 package com.econolodge.econolodgeapp3;
 
+import android.graphics.Picture;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -15,7 +17,7 @@ import java.net.Socket;
 public class Message {
     private boolean lRun = false;
     private String serverMessage;
-    public static final String SERVERIP = "10.0.0.8";
+    public static final String SERVERIP = "10.0.0.15";
     public static final int SERVERPORT = 5551;
 
     PrintWriter out;
@@ -37,22 +39,58 @@ public class Message {
         public String getPassword() {
             return password;
         }
+    }
 
-        /*
-        public void sendData() {
-            lRun = true;
+    public static class PictureMessage implements Serializable {
+        static final long serialVersionUID = -52888313;
+        private byte[] picture;
+        private String id;
 
-            try {
-                InetAddress serverAddr = InetAddress.getByName(SERVERIP);
-                Socket socket = new Socket(serverAddr, SERVERPORT);
+        PictureMessage(byte[] picture, String id) {
+            this.picture = picture;
+            this.id = id;
+        }
 
-                out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                        socket.getOutputStream())), true);
-                out.print()
+        public byte[] getPicture() {
+            return picture;
+        }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public void setPicture(byte[] picture) {
+            this.picture = picture;
+        }
+    }
+
+    public static class AndroidToServer implements Serializable {
+        static final long serialVersionUID = -52888313;
+        private String message;
+
+        public AndroidToServer(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
+    public static class ServerToAndroid implements Serializable {
+        static final long serialVersionUID = -52888313;
+        private String message;
+
+        public ServerToAndroid(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }

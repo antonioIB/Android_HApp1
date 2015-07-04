@@ -25,10 +25,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import android.widget.ExpandableListView;
@@ -59,7 +62,7 @@ public class MPhotoActivity2 extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
+
         setContentView(R.layout.activity_mphoto_activity2);
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
@@ -70,9 +73,10 @@ public class MPhotoActivity2 extends ActionBarActivity {
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
         // setting list adapter
-        expListView.setAdapter(listAdapter);*/
-        //setContentView(R.layout.activity_mphoto_activity3);
+        expListView.setAdapter(listAdapter);
+        setContentView(R.layout.activity_mphoto_activity3);
 
+        /*
         parent = new ScrollView(this);
         table = new LinearLayout(this);
 
@@ -88,7 +92,7 @@ public class MPhotoActivity2 extends ActionBarActivity {
         String sId = Integer.toString(id);
         Log.d("OnCreate", "Calling getPicture");
         new GetPicture().execute(sId);
-
+*/
 
 
     }
@@ -180,7 +184,7 @@ public class MPhotoActivity2 extends ActionBarActivity {
     }
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Picture Task~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    private class PictureTask extends AsyncTask<Bitmap, Void, String> {
+    private class PictureTask extends AsyncTask<Bitmap, Void, Void> {
 
         private Context context;
 
@@ -189,8 +193,7 @@ public class MPhotoActivity2 extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(Bitmap... args) {
-            final String link = "http://192.168.2.125/econolodgeapp/picture.php";
+        protected Void doInBackground(Bitmap... args) {
             Bitmap download = null;
             String line = null;
 
@@ -199,43 +202,20 @@ public class MPhotoActivity2 extends ActionBarActivity {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             args[0].compress(Bitmap.CompressFormat.PNG, 90, stream);
             byte[] byte_arr = stream.toByteArray();
-            String image_str = Base64.encodeToString(byte_arr, Base64.DEFAULT);
+            SimpleDateFormat s = new SimpleDateFormat("ddMMyyyy_hhmmss");
+            String timeString = s.format(new Date());
+            Log.d("Time", timeString);
 
             //upload
-            try {
-                URL url = new URL(link);
-                URLConnection conn = url.openConnection();
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
-                data += "&" + URLEncoder.encode("picture", "UTF-8") + "=" + URLEncoder.encode(image_str, "UTF-8");
-
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                if ((line = reader.readLine()) == null) {
-                    Log.d("PictureTask: ", line);
-                }
-                download = BitmapFactory.decodeStream(new URL(line).openConnection().getInputStream());
+            try{
+                InetAddress serverAddr = InetAddress.getByName(Message.SERVERIP);
+                Message.PictureMessage pictureMessage = new Message.PictureMessage(byte_arr, timeString);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return line;
-        }
 
-        @Override
-        protected void onPostExecute(String args) {
-            try {
-                Log.d("PictureTask", args);
-                TextView textView = (TextView) findViewById(R.id.message);
-                textView.setText(args);
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+
+            return null;
         }
     }
 

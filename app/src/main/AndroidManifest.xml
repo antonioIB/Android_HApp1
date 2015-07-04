@@ -12,10 +12,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".FragmentContainerActivity"
@@ -32,6 +28,24 @@
         <activity
             android:name=".MPhotoActivity2"
             android:label="@string/title_activity_mphoto_activity2" >
+
+        </activity>
+        <activity
+            android:name=".JavaPhotoActivity"
+            android:label="@string/title_activity_java_photo" >
+        </activity>
+        <activity
+            android:name=".SocketInputTest"
+            android:label="@string/title_activity_socket_input_test" >
+        </activity>
+        <activity
+            android:name=".PhotoActivity"
+            android:label="@string/title_activity_photo" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

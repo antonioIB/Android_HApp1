@@ -77,5 +77,8 @@
     <string name="title_activity_clean_approval">CleanApprovalActivity</string>
     <string name="title_activity_mphoto">Maintenance</string>
     <string name="title_activity_mphoto_activity2">MPhotoActivity2</string>
+    <string name="title_activity_java_photo">JavaPhotoActivity</string>
+    <string name="title_activity_socket_input_test">SocketInputTest</string>
+    <string name="title_activity_photo">PhotoActivity</string>
 
 </resources>
